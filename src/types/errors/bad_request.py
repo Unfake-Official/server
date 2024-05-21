@@ -3,4 +3,4 @@ class BadRequest(Exception):
         super().__init__(message)
         self.message = message,
         self.status_code = 400
-        self.name= 'Bad Request'
+        self.name = 'Bad Request'
