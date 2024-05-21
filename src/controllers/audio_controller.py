@@ -1,11 +1,24 @@
 from flask import Blueprint, request, jsonify
 
+from src.infrastructure.spectrogram_handler import SpectrogramHandler
+from src.infrastructure.inference_handler import InferenceHandler
+
 audio_routes_blueprint = Blueprint('audio_routes', __name__)
 
-@audio_routes_blueprint.route('/classify', methods = ['POST'])
+@audio_routes_blueprint.route('/api/audio/classify', methods = ['POST'])
 def classify_audio():
-    body = request.json
-    shit = body.get('what')
-    print(shit)
+    try:
+        audio = request.files['audio']
+        audio_name = audio.filename
 
-    return jsonify({ 'response': 'Hello World!' })
+        print(audio_name)
+
+        spectrogram_creator = SpectrogramHandler()
+        spec = spectrogram_creator.create_spectrogram(audio_name)
+
+        inference_handler = InferenceHandler()
+        inference = inference_handler.inference(spec)
+
+        return jsonify(inference)
+    except:
+        return jsonify({ 'status': 'bad request' })
