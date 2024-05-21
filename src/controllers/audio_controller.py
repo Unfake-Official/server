@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from src.validators.classify_audio_validator import classify_audio_validator
+from src.controllers.validators.classify_audio_validator import classify_audio_validator
 
 from src.types.errors.bad_request import BadRequest
 from src.types.http.response import HttpResponse
