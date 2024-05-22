@@ -5,6 +5,10 @@ from src.types.errors.bad_request import BadRequest
 from src.types.http.response import HttpResponse
 from src.business.classify_audio_use_case import ClassifyAudioUseCase
 import os
+import librosa
+import numpy as np
+import matplotlib.pyplot as plt
+import PIL.Image as img
 
 
 uploads_folder = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
@@ -20,15 +24,30 @@ def classify_audio():
         # classify_audio_validator(request)
 
         audio = request.files['audio']
-        print("-------")
-        filename = os.path.join(uploads_folder, audio.filename)
+
+        nome = audio.filename
+
+        filename = os.path.join(uploads_folder, nome)
         audio.save(filename)
 
-        # Manipular o arquivo (exemplo: converter para wav)
         audio = AudioSegment.from_file(filename)
 
+        y, sr = librosa.load(filename)
 
-        #response = ClassifyAudioUseCase().classify(audio)
+        C = np.abs(librosa.cqt(y, sr=sr))
+        C = librosa.amplitude_to_db(C, ref=np.max)
+
+        output_folder = os.path.join(uploads_folder, 'outputs')
+        image_output = os.path.join(output_folder, 'teste.png')
+
+        print(image_output)
+
+        plt.imsave(image_output, C, cmap='gray')
+        image = img.open(image_output)
+        new_image = image.resize((256, 256))
+        new_image.save(image_output)
+
+        # response = ClassifyAudioUseCase().classify(audio)
 
         return jsonify('1')
     except Exception as error:
