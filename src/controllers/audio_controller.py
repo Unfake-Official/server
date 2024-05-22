@@ -11,9 +11,7 @@ import matplotlib.pyplot as plt
 import PIL.Image as img
 
 
-uploads_folder = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
-if not os.path.exists(uploads_folder):
-    os.makedirs(uploads_folder)
+
 
 
 audio_routes_blueprint = Blueprint('audio_routes', __name__)
