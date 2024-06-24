@@ -10,15 +10,13 @@ if not os.path.exists(temporary_files_folder):
 
 class ClassifyAudioUseCase:
     def classify(self, audio: FileStorage):
-        filename = audio.filename
-
-        spectrogram = self.__create_spectrogram(audio)
+        self.__create_spectrogram(audio)
         #classification = inference(spectrogram)
-        return classification
+        return 0
 
-    def __create_spectrogram(self, filename: str) -> str:
-        filename = os.path.join(temporary_files_folder, filename)
-        audio.save(filename)
+    def __create_spectrogram(self, audio: FileStorage) -> str:
+        # filename = os.path.join(temporary_files_folder, filename)
+        # audio.save(filename)
 
-        spectrogram = create_spectrogram(audio)
-        return spectrogram
+        create_spectrogram(audio, temporary_files_folder)
+        # return spectrogram
