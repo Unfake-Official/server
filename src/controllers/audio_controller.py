@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from src.controllers.validators.classify_audio_validator import classify_audio_validator
 from src.http.error_handler import handle_error
-from src.business.classify_audio_use_case import ClassifyAudioUseCase
+from src.business.classify_audio_use_case import classify_audio_use_case
 
 audio_routes_blueprint = Blueprint('audio_routes', __name__)
 
@@ -12,10 +12,9 @@ def classify_audio():
 
         audio = request.files['audio']
 
-        classify_audio_use_case = ClassifyAudioUseCase()
-        inference = classify_audio_use_case.classify(audio)
+        inference = classify_audio_use_case(audio)
 
-        return jsonify(audio.filename)
+        return jsonify(inference)
     except Exception as error:
         response = handle_error(error)
         return jsonify(response.body), response.status_code

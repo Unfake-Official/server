@@ -11,7 +11,7 @@ if not os.path.exists(temporary_files_folder):
     os.makedirs(temporary_files_folder)
 
 
-def create_spectrogram(audio_file: FileStorage):
+def create_spectrogram(audio_file: FileStorage, audio_name: str):
 
     filename = os.path.join(temporary_files_folder, audio_file.filename)
     audio_file.save(filename)
@@ -23,7 +23,7 @@ def create_spectrogram(audio_file: FileStorage):
     output_folder = os.path.join(temporary_files_folder, 'outputs')
     if not os.path.exists(temporary_files_folder):
         os.makedirs(temporary_files_folder)
-    image_output = os.path.join(output_folder, f'{audio_file.filename}_spectrogram.png')
+    image_output = os.path.join(output_folder, f'{audio_name}_spectrogram.png')
 
     plt.imsave(image_output, spec, cmap='gray')
     image = img.open(image_output)

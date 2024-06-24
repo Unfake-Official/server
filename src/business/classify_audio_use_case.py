@@ -3,14 +3,9 @@ from src.infrastructure.spectrogram_handler import create_spectrogram
 from src.infrastructure.inference_handler import inference
 
 
-class ClassifyAudioUseCase:
-    def classify(self, audio: FileStorage):
-        self.__create_spectrogram(audio)
-        #classification = inference(spectrogram)
-        return 0
+def classify_audio_use_case(audio: FileStorage):
+    audio_name = audio.filename.split('.')[0]
+    create_spectrogram(audio, audio_name)
 
-    def __create_spectrogram(self, audio: FileStorage) -> str:
-        # filename = os.path.join(temporary_files_folder, filename)
-        # audio.save(filename)
-        create_spectrogram(audio)
-        # return spectrogram
+    model_inference = inference(audio_name)
+    return model_inference
