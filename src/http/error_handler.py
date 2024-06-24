@@ -13,4 +13,10 @@ def handle_error(error: Exception) -> HttpResponse:
             }
         )
 
-    return HttpResponse()
+    return HttpResponse(
+        body = {
+            'error': [{
+                'details': error.__str__()
+            }]
+        }
+    )
