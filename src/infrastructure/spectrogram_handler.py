@@ -1,4 +1,5 @@
 import os
+import io
 import librosa
 import librosa.display
 import numpy as np
@@ -13,10 +14,10 @@ if not os.path.exists(temporary_files_folder):
 
 def create_spectrogram(audio_file: FileStorage, audio_name: str):
 
-    filename = os.path.join(temporary_files_folder, audio_file.filename)
-    audio_file.save(filename)
+    audio_bytes = io.BytesIO(audio_file.read())
 
-    y, sr = librosa.load(filename)
+    y, sr = librosa.load(audio_bytes)
+
     spec = np.abs(librosa.cqt(y, sr=sr))
     spec = librosa.amplitude_to_db(spec, ref=np.max)
 
