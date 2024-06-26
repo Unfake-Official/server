@@ -2,6 +2,7 @@ from src.infrastructure.model.classifier import Classifier
 import numpy as np
 import os
 import random
+from io import BytesIO
 # import tensorflow as tf
 
 absolute_path = os.path.abspath(os.path.dirname(__file__))
@@ -10,14 +11,12 @@ absolute_path = os.path.abspath(os.path.dirname(__file__))
 # model = Classifier()
 # model = tf.keras.models.load_model(checkpoint_path)
 
-def inference(audio_name: str):
-
-    path = os.path.join(absolute_path, 'uploads', audio_name)
+def inference(spectrogram_bytes: BytesIO):
     size = (256, 256)
 
     class_names = ['fake', 'other', 'real']
 
-    # img = tf.keras.utils.load_img(path, grayscale = True, target_size = size)
+    # img = tf.keras.utils.load_img(spectrogram_bytes, grayscale = True, target_size = size)
     # img_array = tf.keras.utils.img_to_array(img)
     # img_array = tf.expand_dims(img_array, 0)
 

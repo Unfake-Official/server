@@ -1,11 +1,19 @@
+from io import BytesIO
 from werkzeug.datastructures import FileStorage
 from src.infrastructure.spectrogram_handler import create_spectrogram
 from src.infrastructure.inference_handler import inference
 
 
 def classify_audio_use_case(audio: FileStorage):
-    audio_name = audio.filename.split('.')[0]
-    create_spectrogram(audio, audio_name)
+    audio_bytes = BytesIO(audio.read())
+    spectrogram_bytes = create_spectrogram(audio_bytes)
 
-    model_inference = inference(audio_name)
+    # print(spectrogram_bytes.getvalue())
+
+    model_inference = inference(spectrogram_bytes)
+
+    audio_bytes.close()
+    spectrogram_bytes.close()
+
     return model_inference
+
