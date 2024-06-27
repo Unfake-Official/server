@@ -2,4 +2,3 @@
 .venv
 .pytest_cache
 **/uploads
-**/checkpoint
