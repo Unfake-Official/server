@@ -16,7 +16,7 @@ def inference(spectrogram_bytes: BytesIO):
 
     class_names = ['fake', 'other', 'real']
 
-    img = tf.keras.utils.load_img(spectrogram_bytes, grayscale = True, target_size = size)
+    img = tf.keras.utils.load_img(spectrogram_bytes, color_mode = "grayscale", target_size = size)
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)
 
