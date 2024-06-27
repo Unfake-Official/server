@@ -8,8 +8,6 @@ def classify_audio_use_case(audio: FileStorage):
     audio_bytes = BytesIO(audio.read())
     spectrogram_bytes = create_spectrogram(audio_bytes)
 
-    # print(spectrogram_bytes.getvalue())
-
     model_inference = inference(spectrogram_bytes)
 
     audio_bytes.close()
