@@ -1,7 +1,7 @@
 from src.server import app
 from waitress import serve
 
-mode = 'dev'
+mode = 'production'
 
 host = '0.0.0.0'
 port = 8080
