@@ -1,22 +1,9 @@
-from cerberus import Validator
-from werkzeug.datastructures.file_storage import FileStorage
-
 from src.http.errors.bad_request import BadRequest
 
 
-def is_filestorage(field, value, error):
-    if not isinstance(value, FileStorage):
-        error(field, '"audio" field must be a FileStorage instance')
-
-
 def classify_audio_validator(request: any) -> None:
-    schema = Validator({
-        'audio': {
-            'required': True,
-            'check_with': is_filestorage
-        }
-    })
+    if not request.files:
+        raise BadRequest("No file was provided in the request.")
 
-    response = schema.validate(request.files)
-    if response is False:
-        raise BadRequest(schema.errors)
+    if 'audio' not in request.files or request.files['audio'] is None:
+        raise BadRequest("No file named 'audio' was provided in the request.")

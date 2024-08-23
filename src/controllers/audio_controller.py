@@ -5,7 +5,7 @@ from src.business.classify_audio_use_case import classify_audio_use_case
 
 audio_routes_blueprint = Blueprint('audio_routes', __name__)
 
-@audio_routes_blueprint.route('/api/audio/classify', methods = ['POST'])
+@audio_routes_blueprint.route('/api/classify', methods = ['POST'])
 def classify_audio():
     try:
         classify_audio_validator(request)
