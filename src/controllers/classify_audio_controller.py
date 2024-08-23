@@ -1,14 +1,12 @@
-from flask import Blueprint, request, jsonify
-from src.controllers.validators.classify_audio_validator import classify_audio_validator
+from flask import Request, jsonify
+from src.controllers.validators.classify_request_validator import classify_request_validator
 from src.http.error_handler import handle_error
 from src.business.classify_audio_use_case import classify_audio_use_case
 
-audio_routes_blueprint = Blueprint('audio_routes', __name__)
 
-@audio_routes_blueprint.route('/api/classify', methods = ['POST'])
-def classify_audio():
+def classify(request: Request):
     try:
-        classify_audio_validator(request)
+        classify_request_validator(request)
 
         audio = request.files['audio']
 

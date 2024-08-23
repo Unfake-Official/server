@@ -1,7 +1,8 @@
+from flask import Request
 from src.http.errors.bad_request import BadRequest
 
 
-def classify_audio_validator(request: any) -> None:
+def classify_request_validator(request: Request) -> None:
     if not request.files:
         raise BadRequest("No file was provided in the request.")
 

@@ -1,8 +1,17 @@
-from flask import Flask
+import datetime
+
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from src.controllers.audio_controller import audio_routes_blueprint
+from src.controllers.classify_audio_controller import classify
 
 app = Flask(__name__)
 CORS(app)
 
-app.register_blueprint(audio_routes_blueprint)
+@app.route('/classify', methods = ['POST'])
+def classify_audio():
+    return classify(request = request)
+
+
+@app.route('/keep-alive', methods = ['GET'])
+def keep_alive():
+    return jsonify(f'Keeping server alive at {datetime.datetime.now()}')
