@@ -15,7 +15,7 @@ import random
 def inference(spectrogram_bytes: BytesIO):
     # size = (256, 256)
 
-    class_names = ['fake', 'other', 'real']
+    class_names = ['fake', 'real']
 
     # img = tf.keras.utils.load_img(spectrogram_bytes, color_mode = "grayscale", target_size = size)
     # img_array = tf.keras.utils.img_to_array(img)
@@ -28,4 +28,7 @@ def inference(spectrogram_bytes: BytesIO):
 
     score = random.uniform(0, 1)
 
-    return (class_names[np.argmax(score)], 100 * np.max(score))
+    return {
+        'accuracy': 100 * np.max(score),
+        'classification': class_names[np.random.randint(0, 2)]
+    }
