@@ -1,13 +1,15 @@
+import os
 from src.server import app
 from waitress import serve
-
-mode = 'production'
+from dotenv import load_dotenv
 
 host = '0.0.0.0'
-port = 8080
+
+load_dotenv()
+environment = os.environ.get('ENVIRONMENT', 'production')
 
 if __name__ == '__main__':
-    if mode == 'dev':
-        app.run(host = host, port = port, debug = True)
+    if environment == 'development':
+        app.run(host = host, debug = True)
     else:
-        serve(app, host = host, port = port, threads = 5)
+        serve(app, host = host, port = 8080, threads = 5)
