@@ -12,6 +12,6 @@ def classify_audio():
     return classify(request = request)
 
 
-@app.route('/keep-alive', methods = ['GET'])
-def keep_alive():
-    return jsonify(f'Keeping server alive at {datetime.datetime.now()}')
+@app.route('/alive', methods = ['GET'])
+def alive():
+    return jsonify(f'[{datetime.datetime.now()}] Server is alive.')
