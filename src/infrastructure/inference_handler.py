@@ -1,34 +1,29 @@
-# from src.infrastructure.model.classifier import Classifier
-import numpy as np
+from src.infrastructure.model.classifier import Classifier
 import os
+import numpy as np
 from io import BytesIO
-import random
-# import tensorflow as tf
+from keras import models, utils
+import tensorflow as tf
 
+absolute_path = os.path.abspath(os.path.dirname(__file__))
+checkpoint_path = os.path.join(absolute_path, 'model', 'checkpoint')
 
-# absolute_path = os.path.abspath(os.path.dirname(__file__))
-# checkpoint_path = os.path.join(absolute_path, 'model', 'checkpoint')
-
-# model = Classifier()
-# model = tf.keras.models.load_model(checkpoint_path)
+model = Classifier()
+model = models.load_model(checkpoint_path)
 
 def inference(spectrogram_bytes: BytesIO):
-    # size = (256, 256)
+    size = (512, 256)
 
     class_names = ['fake', 'real']
 
-    # img = tf.keras.utils.load_img(spectrogram_bytes, color_mode = "grayscale", target_size = size)
-    # img_array = tf.keras.utils.img_to_array(img)
-    # img_array = tf.expand_dims(img_array, 0)
+    img = utils.load_img(spectrogram_bytes, target_size = size)
+    img_array = utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)
 
-    # predictions = model.predict(img_array)
-    # score = tf.nn.softmax(predictions[0])
-
-    # return (class_names[np.argmax(score)], 100 * np.max(score))
-
-    score = random.uniform(0, 1)
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
 
     return {
         'accuracy': 100 * np.max(score),
-        'classification': class_names[np.random.randint(0, 2)]
+        'classification': class_names[np.argmax(score)]
     }
