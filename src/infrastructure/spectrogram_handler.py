@@ -2,22 +2,26 @@ from io import BytesIO
 import librosa
 import librosa.display
 import numpy as np
-from PIL import Image
+import matplotlib.pyplot as plt
+import PIL.Image as img
 
 
 def create_spectrogram(audio: BytesIO) -> BytesIO:
-    y, sr = librosa.load(audio)
+
+    y, sr = librosa.load(audio, sr=None)
 
     spec = np.abs(librosa.cqt(y, sr=sr))
     spec = librosa.amplitude_to_db(spec, ref=np.max)
 
-    # converts to type uint8, which is needed for Image.fromarray
-    spec = spec.astype(np.uint8)
-
-    spec_image = Image.fromarray(spec)
-
     img_bytesio = BytesIO()
-    spec_image.save(img_bytesio, format='PNG')
+    plt.imsave(img_bytesio, spec, cmap='viridis', format='png')
     img_bytesio.seek(0)
 
-    return img_bytesio
+    image = img.open(img_bytesio)
+    image = image.resize((512, 256))
+
+    img_bytesio_resized = BytesIO()
+    image.save(img_bytesio_resized, format='png')
+    img_bytesio_resized.seek(0)
+
+    return img_bytesio_resized

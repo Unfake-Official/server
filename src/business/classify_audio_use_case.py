@@ -14,4 +14,3 @@ def classify_audio_use_case(audio: FileStorage):
     spectrogram_bytes.close()
 
     return model_inference
-
