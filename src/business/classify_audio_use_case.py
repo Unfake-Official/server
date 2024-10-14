@@ -1,7 +1,7 @@
 from io import BytesIO
 from werkzeug.datastructures import FileStorage
 from src.infrastructure.spectrogram_handler import create_spectrogram
-from src.infrastructure.keras_inference_handler import inference
+from src.infrastructure.inference_handler import inference
 
 
 def classify_audio_use_case(audio: FileStorage):
