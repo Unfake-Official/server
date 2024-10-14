@@ -14,10 +14,10 @@ def create_spectrogram(audio: BytesIO) -> BytesIO:
     spec = librosa.amplitude_to_db(spec, ref=np.max)
 
     img_bytesio = BytesIO()
-    plt.imsave(img_bytesio, spec, cmap='viridis')
+    plt.imsave(img_bytesio, spec, cmap='viridis', format='png')
     img_bytesio.seek(0)
 
-    image = img.open(img_bytesio).convert('RGB')
+    image = img.open(img_bytesio)
     image = image.resize((512, 256))
 
     img_bytesio_resized = BytesIO()

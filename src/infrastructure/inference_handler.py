@@ -8,13 +8,16 @@ import tensorflow as tf
 absolute_path = os.path.abspath(os.path.dirname(__file__))
 checkpoint_path = os.path.join(absolute_path, 'model', 'model.keras')
 
-model = models.load_model(checkpoint_path)
+model = models.load_model(checkpoint_path, custom_objects={'Classifier': Classifier})
 
 def inference(spectrogram_bytes: BytesIO):
+    size = (512, 256)
 
     class_names = ['fake', 'real']
 
-    img_array = utils.img_to_array(spectrogram_bytes)
+    img = utils.load_img(spectrogram_bytes, target_size = size)
+
+    img_array = utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)
 
     predictions = model.predict(img_array)

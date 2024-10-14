@@ -14,5 +14,6 @@ def classify(request: Request):
 
         return jsonify(inference)
     except Exception as error:
+        print(error.with_traceback())
         response = handle_error(error)
         return jsonify(response.body), response.status_code
